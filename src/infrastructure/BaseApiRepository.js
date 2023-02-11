@@ -22,6 +22,10 @@ class BaseApiRepository {
     this._resource = resource;
   }
 
+  useMocks() {
+    return Boolean(process.env.REACT_APP_USE_MOCKS);
+  }
+
   http(path = '', config = {}) {
     return fetch(`${this.resourceUrl()}/${path}`, {
       ...config,
@@ -37,6 +41,11 @@ class BaseApiRepository {
     this.assertResourceIsDefined();
 
     try {
+      if (this.useMocks()) {
+        const json = api[this._resource][`${this._resource}ListResponse`];
+        return json.data;
+      }
+
       const response = await this.http();
       console.log('LIST RESPONSE', response);
 
@@ -45,7 +54,6 @@ class BaseApiRepository {
       }
 
       const json = await response.json();
-      // const json = api[this._resource][`${this._resource}ListResponse`];
       console.log('LIST JSON', json);
 
       return json.data;
@@ -59,6 +67,11 @@ class BaseApiRepository {
     this.assertResourceIsDefined();
 
     try {
+      if (this.useMocks()) {
+        const json = api[this._resource][`${this._resource}GetResponse`];
+        return json.data;
+      }
+
       const response = await this.http(resourceId);
       console.log('GET RESPONSE', response);
 
@@ -67,7 +80,6 @@ class BaseApiRepository {
       }
 
       const json = await response.json();
-      // const json = api[this._resource][`${this._resource}GetResponse`];
       console.log('GET JSON', json);
 
       return json.data;
@@ -81,6 +93,11 @@ class BaseApiRepository {
     this.assertResourceIsDefined();
 
     try {
+      if (this.useMocks()) {
+        const json = api[this._resource][`${this._resource}CreateResponse`];
+        return json.data;
+      }
+
       const response = await this.http('', {
         method: 'POST',
         body: data
@@ -92,7 +109,6 @@ class BaseApiRepository {
       }
 
       const json = await response.json();
-      // const json = api[this._resource][`${this._resource}CreateResponse`];
       console.log('CREATE JSON', json);
 
       return json.data;
@@ -106,6 +122,11 @@ class BaseApiRepository {
     this.assertResourceIsDefined();
 
     try {
+      if (this.useMocks()) {
+        const json = api[this._resource][`${this._resource}UpdateResponse`];
+        return json.data;
+      }
+
       const response = await this.http(resourceId, {
         method: 'PUT',
         body: data
@@ -117,7 +138,6 @@ class BaseApiRepository {
       }
 
       const json = await response.json();
-      // const json = api[this._resource][`${this._resource}UpdateResponse`];
       console.log('UPDATE JSON', json);
 
       return json.data;
@@ -131,6 +151,11 @@ class BaseApiRepository {
     this.assertResourceIsDefined();
 
     try {
+      if (this.useMocks()) {
+        const json = api[this._resource][`${this._resource}DeleteResponse`];
+        return json.data;
+      }
+
       const response = await this.http(resourceId, {
         method: 'DELETE',
       });
@@ -140,8 +165,7 @@ class BaseApiRepository {
         Alert.error(`The delete ${this._resource} request failed.`);
       }
 
-      const json = await response.json();
-      // const json = api[this._resource][`${this._resource}DeleteResponse`];
+      const json = json = await response.json();
       console.log('DELETE JSON', json);
 
       return json;

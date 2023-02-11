@@ -9,6 +9,7 @@ const ProductTable = (props) => {
           <th>Name</th>
           <th>Description</th>
           <th>Price</th>
+          <th>Store</th>
           <th colSpan={2}></th>
         </tr>
       </thead>
@@ -20,6 +21,7 @@ const ProductTable = (props) => {
               <td>{product.name}</td>
               <td className='text-ellipsis'>{product.description}</td>
               <td>{product.price}</td>
+              <td>{product.store.name}</td>
               <td><button onClick={() => props.handleDelete(product.id)}>Delete</button></td>
               <td><button onClick={() => props.handleOnEdit(product.id)}>Edit</button></td>
             </tr>

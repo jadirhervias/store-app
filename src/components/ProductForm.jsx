@@ -72,13 +72,17 @@ const ProductForm = () => {
 
     if (editionMode) {
       const productIndex = products.findIndex(product => product.id === editableId);
+      const foundStore = stores.find(store => store.id === product.store_id);
 
       repo.update(editableId, product)
         .then(() => {
           if (-1 !== productIndex) {
             products[productIndex] = {
               id: editableId,
-              ...product
+              ...product,
+              store: {
+                ...foundStore
+              }
             }
 
             setProducts([
